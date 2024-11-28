@@ -3,6 +3,8 @@ import {
   uploadFiles,
   triggerPythonScript,
 } from "../controllers/fileUploadService";
+import Upload from "./Upload";
+
 
 export default function UploadResume() {
   const [files, setFiles] = useState(null);
@@ -10,9 +12,12 @@ export default function UploadResume() {
   const [filePaths, setFilePaths] = useState([]);
   const [message, setMessage] = useState("");
   const [scriptOutput, setScriptOutput] = useState("");
+  const [selectedFileName, setSelectedFileName] = useState("Not selected file");
 
   const handleFileChange = (event) => {
-    setFiles(event.target.files);
+    const files = event.target.files;
+    setFiles(files);
+    setSelectedFileName(files.length > 0 ? files[0].name : "Not selected file");
   };
 
   const handleJobDescriptionChange = (event) => {
@@ -63,6 +68,7 @@ export default function UploadResume() {
         />
 
         <div className="flex flex-col items-center">
+          <Upload handleFileChange={handleFileChange} fileName={selectedFileName}/>
           <input
             type="file"
             multiple
